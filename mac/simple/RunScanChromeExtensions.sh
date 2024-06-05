@@ -28,12 +28,9 @@ check_permissions() {
     local content
     content=$(cat "$manifestPath")
     
-    if ! manifest=$(echo "$content" | jq '.'); then
-        echo "Error parsing manifest: $manifestPath"
-        return
-    fi
-    
-    permissions=$(echo "$manifest" | jq -r '.permissions[]')
+    # Extract permissions using grep and sed
+    local permissions
+    permissions=$(echo "$content" | grep -o '"permissions":\s*\[[^]]*\]' | sed 's/"permissions":\s*\[//;s/\]//;s/"//g;s/,/ /g')
     
     riskyFound=()
     for permission in $permissions; do
@@ -51,10 +48,16 @@ check_permissions() {
             riskLevel="Low"
         fi
         
-        author=$(echo "$manifest" | jq -r '.author // "Unknown"')
+        local author
+        author=$(echo "$content" | grep -o '"author":\s*"[^"]*"' | sed 's/"author":\s*"//;s/"//g')
+        [ -z "$author" ] && author="Unknown"
+        
+        local extensionName
+        extensionName=$(echo "$content" | grep -o '"name":\s*"[^"]*"' | sed 's/"name":\s*"//;s/"//g')
+        
         riskyPermissionsStr=$(IFS=";"; echo "${riskyFound[*]}")
         
-        echo "$profileName, $(echo "$manifest" | jq -r '.name'), $author, $riskyPermissionsStr, $riskLevel"
+        echo "$profileName, $extensionName, $author, $riskyPermissionsStr, $riskLevel"
     fi
 }
 
@@ -86,11 +89,6 @@ process_extensions_dir() {
 
 userDataDir="$HOME/Library/Application Support/Google/Chrome"
 
-if [ ! -d "$userDataDir" ]; then
-    echo "please check path." >&2
-    exit 1
-fi
-
 results=()
 profileDirs=("$userDataDir/Default" "$userDataDir/Profile "*)
 
@@ -103,6 +101,8 @@ for profileDir in "${profileDirs[@]}"; do
         profileResults=$(process_extensions_dir "$extensionsDir" "$profileName")
         if [ -n "$profileResults" ]; then
             results+=("$profileResults")
+        else
+            results+=("No risky permissions found in $profileName.")
         fi
     else
         echo "Extensions directory does not exist in $profileName, please check the path and try again." >&2
