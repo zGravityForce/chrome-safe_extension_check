@@ -35,4 +35,4 @@ PS：可以对不同的 Profile 进行扫描。
 - `management`: 允许插件管理其他已安装的扩展。可能被用来禁用安全扩展，启用恶意扩展。
 - `nativeMessaging`: 允许插件与本地应用程序通信。可能导致本地系统被攻击，特别是如果本地应用程序存在安全漏洞。
 
-
+PS: 请阅读 [Chrome Permissions List](https://developer.chrome.com/docs/extensions/reference/permissions-list?hl=zh-cn) 了解更多权限信息。
