@@ -1,11 +1,17 @@
 # 项目名称: Chrome Safe Extension Scanner
 
-## 简介
-这个项目是一个用于查找 Chrome 插件权限的工具，旨在帮助用户快速查找并分析 Chrome 插件的权限信息。通过该工具，用户可以更好地了解各个插件的权限情况。
+## 使用方法
 
-## 功能
-- 查找并列出 Chrome 插件的权限信息
-- 支持 Windows 和 Mac 系统（提供 simple 版本是无需输入路径，advanced 版本需要手动输入路径）
+### 第一步：查找 Chrome Profile 路径
+1. 打开 Chrome 浏览器并进入你想要查询的 Profile。
+2. 在地址栏中输入 `chrome://version` 并按回车。
+3. 在页面中找到“个人资料路径”，例如：`个人资料路径 C:\Users\username\AppData\Local\Google\Chrome\User Data\Profile 1`
+
+### Windows
+1. 点击 Windows 目录中的 `RunScanChromeExtensions.bat` 即可。
+2. 当出现 “Please enter the Chrome user data directory path (e.g., C:\Users\YourUsername\AppData\Local\Google\Chrome\User Data\Profile 7):” 字样时，将第一步中的路径复制过来即可。
+
+PS：可以对不同的 Profile 进行扫描。
 
 ## 权限查询及其含义
 - `<all_urls>`: 允许插件访问所有网站的权限。可能导致插件获取所有网页的数据，包括敏感信息，如登录凭证和个人数据。

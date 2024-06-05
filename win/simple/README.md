@@ -1,11 +1,9 @@
 # 项目名称: Chrome Safe Extension Scanner
 
-## 简介
-这个项目是一个用于查找 Chrome 插件权限的工具，旨在帮助用户快速查找并分析 Chrome 插件的权限信息。通过该工具，用户可以更好地了解各个插件的权限情况。
 
-## 功能
-- 查找并列出 Chrome 插件的权限信息
-- 支持 Windows 和 Mac 系统（提供 simple 版本是无需输入路径，advanced 版本需要手动输入路径）
+## 使用方法
+
+1. 直接点击 `RunScanChromeExtensions.bat`，脚本将自动运行并生成包含各个 Chrome 插件权限信息及风险等级的 CSV 文件。
 
 ## 权限查询及其含义
 - `<all_urls>`: 允许插件访问所有网站的权限。可能导致插件获取所有网页的数据，包括敏感信息，如登录凭证和个人数据。
